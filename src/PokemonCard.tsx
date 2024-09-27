@@ -48,9 +48,9 @@ export function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           Types:
         </Text>
         <Group>
-          {types.map((type) => (
-            <Badge color="orange" key={type.type.name}>
-              {type.type.name}
+          {types.map((item) => (
+            <Badge color="orange" key={item.type.name}>
+              {item.type.name}
             </Badge>
           ))}
         </Group>
@@ -59,9 +59,9 @@ export function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           Abilities:
         </Text>
         <Group>
-          {abilities.map((ability) => (
-            <Badge color="green" key={ability.ability.name}>
-              {ability.ability.name}
+          {abilities.map((item) => (
+            <Badge color="green" key={item.ability.name}>
+              {item.ability.name}
             </Badge>
           ))}
         </Group>
