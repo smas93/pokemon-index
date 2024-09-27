@@ -3,6 +3,21 @@ import { Autocomplete, Loader, Alert, Title } from "@mantine/core";
 import { PokemonCard } from "./PokemonCard";
 import { IconAlertCircle } from "@tabler/icons-react";
 
+const fetchPokemonList = async (searchTerm: string): Promise<string[]> => {
+  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1000");
+  const data = await response.json();
+  return data.results
+    .map((pokemon: { name: string }) => pokemon.name)
+    .filter((name: string) => name.startsWith(searchTerm.toLowerCase()));
+};
+
+const fetchPokemonDetails = async (pokemonName: string) => {
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`
+  );
+  return response.json();
+};
+
 export function AutocompleteLoading() {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +32,7 @@ export function AutocompleteLoading() {
     setData([]);
     setError(null);
 
-    if (val.trim().length === 0) {
+    if (!val.trim()) {
       setLoading(false);
       return;
     }
@@ -25,34 +40,32 @@ export function AutocompleteLoading() {
     setLoading(true);
     clearTimeout(timeoutRef.current);
 
-    timeoutRef.current = window.setTimeout(() => {
-      fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`)
-        .then((response) => response.json())
-        .then((data) => {
-          const filteredPokemon = data.results
-            .map((pokemon: { name: string }) => pokemon.name)
-            .filter((name: string) => name.startsWith(val.toLowerCase()));
-          setData(filteredPokemon);
-          if (filteredPokemon.length === 0) {
-            setError("No Pokémon found matching your search.");
-          }
-        })
-        .catch(() => setError("Failed to load Pokémon data. Please try again."))
-        .finally(() => setLoading(false));
+    timeoutRef.current = window.setTimeout(async () => {
+      try {
+        const filteredPokemon = await fetchPokemonList(val);
+        setData(filteredPokemon);
+        if (filteredPokemon.length === 0) {
+          setError("No Pokémon found matching your search.");
+        }
+      } catch {
+        setError("Failed to load Pokémon data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     }, 500);
   };
 
-  const handleSelect = (pokemonName: string) => {
+  const handleSelect = async (pokemonName: string) => {
     setLoading(true);
     setError(null);
-
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
-      .then((response) => response.json())
-      .then(setSelectedPokemon)
-      .catch(() =>
-        setError("Failed to load Pokémon details. Please try again.")
-      )
-      .finally(() => setLoading(false));
+    try {
+      const pokemonDetails = await fetchPokemonDetails(pokemonName);
+      setSelectedPokemon(pokemonDetails);
+    } catch {
+      setError("Failed to load Pokémon details. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
