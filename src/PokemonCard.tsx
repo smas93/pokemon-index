@@ -1,7 +1,26 @@
 import { Card, Image, Text, Group, Badge, Box } from "@mantine/core";
 import classes from "./PokemonCard.module.css";
 
-export function PokemonCard({ pokemon }) {
+interface Pokemon {
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+  weight: number;
+  height: number;
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+  abilities: {
+    ability: {
+      name: string;
+    };
+  }[];
+}
+
+export function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const { name, sprites, weight, height, types, abilities } = pokemon;
 
   return (
