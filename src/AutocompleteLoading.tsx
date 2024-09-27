@@ -32,12 +32,6 @@ export function AutocompleteLoading() {
     setSelectedPokemon(null);
     setData([]);
     setError(null);
-
-    if (!val.trim()) {
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     clearTimeout(timeoutRef.current);
 
@@ -72,7 +66,9 @@ export function AutocompleteLoading() {
 
   return (
     <>
-      <Title order={1}>Find your Pokémon</Title>
+      <Title ta={"center"} order={1}>
+        Find your Pokémon
+      </Title>
       <br />
       <Autocomplete
         value={value}
