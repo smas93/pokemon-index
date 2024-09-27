@@ -26,7 +26,7 @@ export function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   return (
     <Card withBorder radius="md" p="md" className={classes.card}>
       <Card.Section>
-        <Image src={sprites.front_default} alt={name} height={250} fit="fill" />
+        <Image src={sprites.front_default} height={250} fit="fill" />
       </Card.Section>
 
       <Card.Section mt="md" className={classes.section}>
