@@ -24,6 +24,7 @@ export function AutocompleteLoading() {
   const [data, setData] = useState<string[]>([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [error, setError] = useState<string | null>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
   const timeoutRef = useRef<number>(-1);
 
   const handleChange = (val: string) => {
@@ -56,7 +57,7 @@ export function AutocompleteLoading() {
   };
 
   const handleSelect = async (pokemonName: string) => {
-    setLoading(true);
+    setLoadingDetails(true);
     setError(null);
     try {
       const pokemonDetails = await fetchPokemonDetails(pokemonName);
@@ -64,7 +65,7 @@ export function AutocompleteLoading() {
     } catch {
       setError("Failed to load Pokémon details. Please try again.");
     } finally {
-      setLoading(false);
+      setLoadingDetails(false);
     }
   };
 
@@ -92,7 +93,7 @@ export function AutocompleteLoading() {
         </Alert>
       )}
       <br />
-      {!loading && !error && selectedPokemon && (
+      {!loadingDetails && !loading && !error && selectedPokemon && (
         <PokemonCard pokemon={selectedPokemon} />
       )}
     </>
