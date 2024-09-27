@@ -62,6 +62,7 @@ export function AutocompleteLoading() {
     try {
       const pokemonDetails = await fetchPokemonDetails(pokemonName);
       setSelectedPokemon(pokemonDetails);
+      setValue("");
     } catch {
       setError("Failed to load Pokémon details. Please try again.");
     } finally {
