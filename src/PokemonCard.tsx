@@ -30,7 +30,7 @@ export function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
       </Card.Section>
 
       <Card.Section mt="md" className={classes.section}>
-        <Text fz="lg" fw={500} ta="center">
+        <Text fz="lg" fw={700} ta="center">
           {name.charAt(0).toUpperCase() + name.slice(1)}
         </Text>
         <Group justify="space-between" mt="md">
