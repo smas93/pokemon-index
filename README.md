@@ -1,5 +1,3 @@
-# Mantine Vite template
+# Pokémon Index
 
-Get started with the template by clicking `Use this template` button on the top of the page.
-
-[Documentation](https://mantine.dev/guides/vite/)
+[Click for test](https://smas93.github.io/pokemon-index)
